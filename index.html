@@ -2,57 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AdPulse Reality Mode</title>
+  <title>AdPulse Guard – Reality Mode</title>
   <style>
     body {
       font-family: "Courier New", monospace;
-      background-color: #121212;
+      background: #0f0f0f;
       color: #f0f0f0;
-      padding: 2rem;
+      padding: 40px;
     }
-    .container {
+    .box {
       max-width: 600px;
       margin: auto;
-      border: 1px solid #444;
+      background: #1b1b1b;
       border-radius: 12px;
-      padding: 2rem;
-      background-color: #1e1e1e;
+      padding: 24px;
       box-shadow: 0 0 20px rgba(255,0,0,0.2);
     }
-    h1 {
-      color: #ff4b4b;
-    }
-    .sarcasm {
-      margin-top: 1rem;
-      font-style: italic;
-      color: #ccc;
-    }
+    h1 { color: #ff4b4b; }
+    .muted { color: #aaa; font-style: italic; }
+    ul { margin-top: 10px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>👋 Welcome to Reality Mode™</h1>
-    <div id="report">Loading snark...</div>
-    <div class="sarcasm">Brought to you by AdPulse Guard, who really tried today.</div>
+
+<div class="box">
+  <h1>Reality Mode™</h1>
+
+  <div id="loading" class="muted">
+    <span id="dots">Calculating how doomed you are</span>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const slots = params.get("slots") || "unknown";
-    const issues = params.get("issues") || "unspecified";
-    const loss = params.get("loss") || "???";
-    const gptFail = params.get("gptFail") || 0;
-    const domFail = params.get("domFail") || 0;
+  <div id="report" style="display:none;"></div>
+</div>
 
+<script>
+  let dots = 0;
+  const dotEl = document.getElementById("dots");
+
+  const doomInterval = setInterval(() => {
+    dotEl.textContent = "Calculating how doomed you are" + ".".repeat(dots % 4);
+    dots++;
+  }, 500);
+
+  const p = new URLSearchParams(window.location.search);
+  const slots = p.get("slots");
+  const issues = p.get("issues");
+  const loss = p.get("loss");
+  const gptFail = p.get("gptFail");
+  const domFail = p.get("domFail");
+
+  setTimeout(() => {
+    clearInterval(doomInterval);
+    document.getElementById("loading").style.display = "none";
+
+    document.getElementById("report").style.display = "block";
     document.getElementById("report").innerHTML = `
-      <p>Ah yes... <strong>${issues}</strong> issues across <strong>${slots}</strong> slots.</p>
-      <p>You’re risking <strong>$${loss}</strong> in revenue. But hey, live dangerously.</p>
+      <p><strong>${issues}</strong> issues across <strong>${slots}</strong> slots.</p>
+      <p>Estimated revenue bleeding: <strong>$${loss}</strong></p>
       <ul>
-        <li>${gptFail} GPT units just gave up and went home.</li>
-        <li>${domFail} slots exist only in legend. They’re not in the DOM.</li>
+        <li>${gptFail} GPT units gave up on life.</li>
+        <li>${domFail} slots do not exist in this reality.</li>
       </ul>
-      <p>Everything is on fire, but at least someone’s watching.</p>
+      <p class="muted">Everything is fine. (It is not fine.)</p>
     `;
-  </script>
+  }, 2200);
+</script>
+
 </body>
 </html>
