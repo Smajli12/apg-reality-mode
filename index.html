@@ -6,156 +6,149 @@
   <title>Reality Mode™</title>
   <style>
     body {
-      background-color: #0f0f0f;
-      color: #f2f2f2;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111827;
+      color: #f3f4f6;
       padding: 40px;
+      max-width: 700px;
+      margin: auto;
+      transition: background 0.4s, color 0.4s;
     }
-    .container {
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 30px;
-      border: 1px solid #b91c1c;
-      box-shadow: 0 0 10px #7f1d1d33;
+    .light-mode {
+      background: #f3f4f6;
+      color: #111827;
+    }
+    .box {
+      background: #1f2937;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00000044;
+      transition: background 0.4s;
+    }
+    .light-mode .box {
+      background: #ffffff;
     }
     h1 {
-      color: #ef4444;
-      font-size: 28px;
-      margin-bottom: 20px;
+      font-size: 26px;
+      margin-bottom: 18px;
     }
-    p, li {
-      font-size: 16px;
+    p {
+      margin-bottom: 10px;
       line-height: 1.6;
     }
-    em {
-      color: #aaa;
-      font-style: italic;
+    .highlight {
+      color: #facc15;
+      font-weight: bold;
     }
-    ul {
-      margin-top: 10px;
-      margin-bottom: 10px;
+    .light-mode .highlight {
+      color: #d97706;
+    }
+    .fade {
+      opacity: 0.7;
+      font-size: 14px;
+    }
+    .quote {
+      margin-top: 24px;
+      font-style: italic;
+      color: #9ca3af;
+    }
+    .light-mode .quote {
+      color: #6b7280;
+    }
+    .button-row {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 14px;
+      background: #374151;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #4b5563;
+    }
+    .light-mode button {
+      background: #d1d5db;
+      color: #111;
+    }
+    .light-mode button:hover {
+      background: #e5e7eb;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="title">Reality Mode™: Sassy Edition</h1>
-
-    <p id="summary"></p>
-
-    <div id="revenue"></div>
-
-    <ul id="failList"></ul>
-
-    <p id="footer"></p>
+  <div class="box">
+    <h1 id="title">Reality check loading...</h1>
+    <p id="summary">Just a sec...</p>
+    <div id="details"></div>
+    <p class="quote" id="quote"></p>
+    <div class="button-row">
+      <button onclick="location.reload()">🔁 Roast me again</button>
+      <button onclick="document.body.classList.toggle('light-mode')">🌓 Toggle Light/Dark</button>
+    </div>
   </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const slots = urlParams.get('slots') || 0;
-    const issues = urlParams.get('issues') || 0;
-    const loss = urlParams.get('loss') || 0;
-
-    const issueRoasts = {
-      gptFail: {
-        emoji: '🧠',
-        lines: [
-          'GPT units had an existential crisis.',
-          'GPT? Never heard of her.',
-          'No GPT? No ads. No mercy.',
-          'The brain of your stack is missing. Again.'
-        ]
-      },
-      domFail: {
-        emoji: '🕳️',
-        lines: [
-          'slots were never born (DOM who?).',
-          'DOM said: not my job.',
-          'Invisible slots: the new monetization strategy?',
-          'You defined it, but reality didn’t.'
-        ]
-      },
-      wrongNetwork: {
-        emoji: '🚫',
-        lines: [
-          'slots joined the wrong gang (bad network ID).',
-          'Wrong network. Wrong life choices.',
-          'This slot ran away from home.',
-          'Connected to the wrong reality. Much like me.'
-        ]
-      },
-      emptyResponse: {
-        emoji: '📬',
-        lines: [
-          'ads showed up with absolutely nothing to say.',
-          'Blank stares from your ad server.',
-          'Air ads: great for vibes, not for revenue.',
-          'Empty response, just like my inbox on weekends.'
-        ]
-      },
-      unexpectedSize: {
-        emoji: '👖',
-        lines: [
-          'slots tried on pants that didn’t fit.',
-          'Size matters. Yours is wrong.',
-          'That creative just squeezed into a slot like jeans after quarantine.',
-          'Mismatch made in monetization hell.'
-        ]
-      }
-    };
-
     const titles = [
-      'Reality Mode™: Sassy Edition',
-      'Well, this is awkward.',
-      'How to lose money in 10 slots.',
-      'Daily Roast: Ad Stack Edition',
-      'This is why we can’t have nice things.',
-      'Ad delivery? More like ad betrayal.'
+      "🔥 This is why we can't have nice things.",
+      "💀 Another day, another mess.",
+      "🧨 May the ad gods have mercy.",
+      "🛠️ You break it, you track it.",
+      "🙃 Look what you did."
     ];
 
-    const coffeeConversions = [
-      'That’s like 24 overpriced coffees.',
-      'Could’ve bought 2 weeks of groceries (if you skip snacks).',
-      'Basically a nice dinner and emotional damage.',
-      'Enough to hurt, not enough to cry over. Yet.',
-      'Equivalent to 4 SaaS tools you forgot to cancel.'
+    const issueSlotCombos = [
+      (i, s) => `The ad gods have filed <span class="highlight">${i}</span> formal complaints. <span class="highlight">${s}</span> slots caught in the crossfire.`,
+      (i, s) => `<span class="highlight">${s}</span> ad slots. <span class="highlight">${i}</span> ways you've disappointed the algorithm today.`,
+      (i, s) => `Page karma: <span class="highlight">${i}</span> infractions. <span class="highlight">${s}</span> unlucky slots absorbing the consequences.`,
+      (i, s) => `This page annoyed the ad gods <span class="highlight">${i}</span> times. <span class="highlight">${s}</span> slots were just collateral damage.`,
+      (i, s) => `<span class="highlight">${i}</span> violations detected. <span class="highlight">${s}</span> tiny rectangles are now emotionally unavailable.`,
+      (i, s) => `Your ad setup triggered <span class="highlight">${i}</span> alerts. The <span class="highlight">${s}</span> affected slots are requesting therapy.`,
+      (i, s) => `<span class="highlight">${s}</span> slots walk into a page. <span class="highlight">${i}</span> walk out crying.`,
+      (i, s) => `<span class="highlight">${i}</span> sins found, <span class="highlight">${s}</span> slots cursed.`
     ];
 
-    const footers = [
-      'Everything is fine. (It is not fine.)',
-      'Still pretending this is normal.',
-      'AdPulse Guard is judging you silently.',
-      'Yes, we logged this. No, we’re not fixing it for you.',
-      'Breathe in. Breathe out. Try again tomorrow.'
+    const quotes = [
+      "Enough to hurt, not enough to cry over. Yet.",
+      "Fixing things builds character.",
+      "Just pretend it's all working fine.",
+      "We're not mad. Just disappointed.",
+      "May tomorrow bring fewer alerts.",
+      "You’re doing amazing, sweetie. (No you're not.)",
+      "Technically functional. Emotionally broken."
     ];
 
-    const title = titles[Math.floor(Math.random() * titles.length)];
-    document.getElementById('title').innerText = title;
+    const urlParams = new URLSearchParams(window.location.search);
+    const slots = parseInt(urlParams.get('slots') || '0');
+    const issues = parseInt(urlParams.get('issues') || '0');
+    const loss = parseFloat(urlParams.get('loss') || '0');
+    const gptFail = parseInt(urlParams.get('gptFail') || '0');
+    const domFail = parseInt(urlParams.get('domFail') || '0');
+    const wrongNetwork = parseInt(urlParams.get('wrongNetwork') || '0');
+    const emptyResponse = parseInt(urlParams.get('emptyResponse') || '0');
+    const unexpectedSize = parseInt(urlParams.get('unexpectedSize') || '0');
 
-    document.getElementById('summary').innerHTML = `
-      Your page has <strong>${issues}</strong> complaints from the ad gods,<br>
-      spread across <strong>${slots}</strong> innocent slots.
-    `;
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
-    const conversion = coffeeConversions[Math.floor(Math.random() * coffeeConversions.length)];
-    document.getElementById('revenue').innerHTML = `
-      🩸 Estimated <strong>daily</strong> revenue bleeding: <strong>$${loss}</strong><br>
-      <em>${conversion}</em>
-    `;
+    document.getElementById("title").innerHTML = pick(titles);
+    document.getElementById("summary").innerHTML = pick(issueSlotCombos)(issues, slots);
 
-    const failList = [];
-    Object.keys(issueRoasts).forEach(key => {
-      const count = Number(urlParams.get(key)) || 0;
-      if (count > 0) {
-        const { emoji, lines } = issueRoasts[key];
-        const randomLine = lines[Math.floor(Math.random() * lines.length)];
-        failList.push(`${emoji} ${count} ${randomLine}`);
-      }
-    });
-    document.getElementById('failList').innerHTML = failList.map(f => `<li>${f}</li>`).join('');
+    const details = [];
+    if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
+    if (gptFail > 0) details.push(`🧠 GPT engine failed <span class="highlight">${gptFail}</span> time(s).`);
+    if (domFail > 0) details.push(`🕳️ <span class="highlight">${domFail}</span> slots ghosted the DOM.`);
+    if (wrongNetwork > 0) details.push(`🔌 <span class="highlight">${wrongNetwork}</span> requests went to the wrong network.`);
+    if (emptyResponse > 0) details.push(`📭 <span class="highlight">${emptyResponse}</span> slots got ghosted by the ad server.`);
+    if (unexpectedSize > 0) details.push(`📏 <span class="highlight">${unexpectedSize}</span> slots couldn’t commit to a size.`);
 
-    const footer = footers[Math.floor(Math.random() * footers.length)];
-    document.getElementById('footer').innerHTML = `<em>${footer}</em>`;
+    document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
+    document.getElementById("quote").innerText = pick(quotes);
   </script>
 </body>
 </html>
