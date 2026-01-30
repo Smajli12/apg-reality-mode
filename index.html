@@ -1,72 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AdPulse Guard – Reality Mode</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reality Mode™</title>
   <style>
     body {
-      font-family: "Courier New", monospace;
-      background: #0f0f0f;
-      color: #f0f0f0;
+      background-color: #0f0f0f;
+      color: #f2f2f2;
+      font-family: 'Courier New', Courier, monospace;
       padding: 40px;
     }
-    .box {
-      max-width: 600px;
-      margin: auto;
-      background: #1b1b1b;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    .container {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 30px;
+      border: 1px solid #b91c1c;
+      box-shadow: 0 0 10px #7f1d1d33;
     }
-    h1 { color: #ff4b4b; }
-    .muted { color: #aaa; font-style: italic; }
-    ul { margin-top: 10px; }
+    h1 {
+      color: #ef4444;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    p, li {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    em {
+      color: #aaa;
+      font-style: italic;
+    }
+    ul {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 id="title">Reality Mode™: Sassy Edition</h1>
 
-<div class="box">
-  <h1>Reality Mode™</h1>
+    <p id="summary"></p>
 
-  <div id="loading" class="muted">
-    <span id="dots">Calculating how doomed you are</span>
+    <div id="revenue"></div>
+
+    <ul id="failList"></ul>
+
+    <p id="footer"></p>
   </div>
 
-  <div id="report" style="display:none;"></div>
-</div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const slots = urlParams.get('slots') || 0;
+    const issues = urlParams.get('issues') || 0;
+    const loss = urlParams.get('loss') || 0;
+    const gptFail = urlParams.get('gptFail') || 0;
+    const domFail = urlParams.get('domFail') || 0;
 
-<script>
-  let dots = 0;
-  const dotEl = document.getElementById("dots");
+    const titles = [
+      'Reality Mode™: Sassy Edition',
+      'Well, this is awkward.',
+      'How to lose money in 10 slots.',
+      'Daily Roast: Ad Stack Edition',
+      'This is why we can’t have nice things.',
+      'Ad delivery? More like ad betrayal.'
+    ];
 
-  const doomInterval = setInterval(() => {
-    dotEl.textContent = "Calculating how doomed you are" + ".".repeat(dots % 4);
-    dots++;
-  }, 500);
+    const coffeeConversions = [
+      'That’s like 24 overpriced coffees.',
+      'Could’ve bought 2 weeks of groceries (if you skip snacks).',
+      'Basically a nice dinner and emotional damage.',
+      'Enough to hurt, not enough to cry over. Yet.',
+      'Equivalent to 4 SaaS tools you forgot to cancel.'
+    ];
 
-  const p = new URLSearchParams(window.location.search);
-  const slots = p.get("slots");
-  const issues = p.get("issues");
-  const loss = p.get("loss");
-  const gptFail = p.get("gptFail");
-  const domFail = p.get("domFail");
+    const failListVariants = [
+      [
+        `🧠 ${gptFail} GPT unit${gptFail != 1 ? 's' : ''} had an existential crisis.`,
+        `🕳️ ${domFail} slot${domFail != 1 ? 's' : ''} were never born (DOM who?).`
+      ],
+      [
+        `😅 ${gptFail} GPTs ghosted your page.`,
+        `🪨 ${domFail} slots are imaginary friends.`
+      ],
+      [
+        `😬 GPT? More like Gone Probably Totally. (${gptFail})`,
+        `🌪️ ${domFail} slots fell through the multiverse.`
+      ]
+    ];
 
-  setTimeout(() => {
-    clearInterval(doomInterval);
-    document.getElementById("loading").style.display = "none";
+    const footers = [
+      'Everything is fine. (It is not fine.)',
+      'Still pretending this is normal.',
+      'AdPulse Guard is judging you silently.',
+      'Yes, we logged this. No, we’re not fixing it for you.',
+      'Breathe in. Breathe out. Try again tomorrow.'
+    ];
 
-    document.getElementById("report").style.display = "block";
-    document.getElementById("report").innerHTML = `
-      <p><strong>${issues}</strong> issues across <strong>${slots}</strong> slots.</p>
-      <p>Estimated revenue bleeding: <strong>$${loss}</strong></p>
-      <ul>
-        <li>${gptFail} GPT units gave up on life.</li>
-        <li>${domFail} slots do not exist in this reality.</li>
-      </ul>
-      <p class="muted">Everything is fine. (It is not fine.)</p>
+    const title = titles[Math.floor(Math.random() * titles.length)];
+    document.getElementById('title').innerText = title;
+
+    document.getElementById('summary').innerHTML = `
+      Your page has <strong>${issues}</strong> complaints from the ad gods,<br>
+      spread across <strong>${slots}</strong> innocent slots.
     `;
-  }, 2200);
-</script>
 
+    const conversion = coffeeConversions[Math.floor(Math.random() * coffeeConversions.length)];
+    document.getElementById('revenue').innerHTML = `
+      🩸 Estimated daily revenue bleeding: <strong>$${loss}</strong><br>
+      <em>${conversion}</em>
+    `;
+
+    const chosenFails = failListVariants[Math.floor(Math.random() * failListVariants.length)];
+    document.getElementById('failList').innerHTML = chosenFails.map(f => `<li>${f}</li>`).join('');
+
+    const footer = footers[Math.floor(Math.random() * footers.length)];
+    document.getElementById('footer').innerHTML = `<em>${footer}</em>`;
+  </script>
 </body>
 </html>
