@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AdPulse Reality Mode</title>
+  <style>
+    body {
+      font-family: "Courier New", monospace;
+      background-color: #121212;
+      color: #f0f0f0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 2rem;
+      background-color: #1e1e1e;
+      box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    }
+    h1 {
+      color: #ff4b4b;
+    }
+    .sarcasm {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👋 Welcome to Reality Mode™</h1>
+    <div id="report">Loading snark...</div>
+    <div class="sarcasm">Brought to you by AdPulse Guard, who really tried today.</div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slots = params.get("slots") || "unknown";
+    const issues = params.get("issues") || "unspecified";
+    const loss = params.get("loss") || "???";
+    const gptFail = params.get("gptFail") || 0;
+    const domFail = params.get("domFail") || 0;
+
+    document.getElementById("report").innerHTML = `
+      <p>Ah yes... <strong>${issues}</strong> issues across <strong>${slots}</strong> slots.</p>
+      <p>You’re risking <strong>$${loss}</strong> in revenue. But hey, live dangerously.</p>
+      <ul>
+        <li>${gptFail} GPT units just gave up and went home.</li>
+        <li>${domFail} slots exist only in legend. They’re not in the DOM.</li>
+      </ul>
+      <p>Everything is on fire, but at least someone’s watching.</p>
+    `;
+  </script>
+</body>
+</html>
