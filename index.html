@@ -58,24 +58,49 @@
 
     const issueRoasts = {
       gptFail: {
-        label: 'GPT units had an existential crisis.',
-        emoji: '🧠'
+        emoji: '🧠',
+        lines: [
+          'GPT units had an existential crisis.',
+          'GPT? Never heard of her.',
+          'No GPT? No ads. No mercy.',
+          'The brain of your stack is missing. Again.'
+        ]
       },
       domFail: {
-        label: 'slots were never born (DOM who?).',
-        emoji: '🕳️'
+        emoji: '🕳️',
+        lines: [
+          'slots were never born (DOM who?).',
+          'DOM said: not my job.',
+          'Invisible slots: the new monetization strategy?',
+          'You defined it, but reality didn’t.'
+        ]
       },
       wrongNetwork: {
-        label: 'slots joined the wrong gang (bad network ID).',
-        emoji: '🚫'
+        emoji: '🚫',
+        lines: [
+          'slots joined the wrong gang (bad network ID).',
+          'Wrong network. Wrong life choices.',
+          'This slot ran away from home.',
+          'Connected to the wrong reality. Much like me.'
+        ]
       },
       emptyResponse: {
-        label: 'ads showed up with absolutely nothing to say.',
-        emoji: '📬'
+        emoji: '📬',
+        lines: [
+          'ads showed up with absolutely nothing to say.',
+          'Blank stares from your ad server.',
+          'Air ads: great for vibes, not for revenue.',
+          'Empty response, just like my inbox on weekends.'
+        ]
       },
       unexpectedSize: {
-        label: 'slots tried on pants that didn’t fit.',
-        emoji: '👖'
+        emoji: '👖',
+        lines: [
+          'slots tried on pants that didn’t fit.',
+          'Size matters. Yours is wrong.',
+          'That creative just squeezed into a slot like jeans after quarantine.',
+          'Mismatch made in monetization hell.'
+        ]
       }
     };
 
@@ -122,8 +147,9 @@
     Object.keys(issueRoasts).forEach(key => {
       const count = Number(urlParams.get(key)) || 0;
       if (count > 0) {
-        const { emoji, label } = issueRoasts[key];
-        failList.push(`${emoji} ${count} ${label}`);
+        const { emoji, lines } = issueRoasts[key];
+        const randomLine = lines[Math.floor(Math.random() * lines.length)];
+        failList.push(`${emoji} ${count} ${randomLine}`);
       }
     });
     document.getElementById('failList').innerHTML = failList.map(f => `<li>${f}</li>`).join('');
