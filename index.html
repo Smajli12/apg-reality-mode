@@ -12,21 +12,12 @@
       padding: 40px;
       max-width: 700px;
       margin: auto;
-      transition: background 0.3s, color 0.3s;
-    }
-    .light-mode {
-      background: #f9fafb;
-      color: #111827;
     }
     .box {
       background: #1f2937;
       padding: 24px;
       border-radius: 12px;
       box-shadow: 0 0 10px #00000044;
-    }
-    .light-mode .box {
-      background: #ffffff;
-      box-shadow: 0 0 10px #e5e7eb;
     }
     h1 {
       font-size: 26px;
@@ -40,9 +31,6 @@
       color: #facc15;
       font-weight: bold;
     }
-    .light-mode .highlight {
-      color: #ca8a04;
-    }
     .fade {
       opacity: 0.7;
       font-size: 14px;
@@ -52,25 +40,6 @@
       font-style: italic;
       color: #9ca3af;
     }
-    .light-mode .quote {
-      color: #6b7280;
-    }
-    .actions {
-      margin-top: 24px;
-    }
-    .button {
-      background: #374151;
-      color: white;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-right: 8px;
-    }
-    .light-mode .button {
-      background: #d1d5db;
-      color: #111827;
-    }
   </style>
 </head>
 <body>
@@ -79,11 +48,6 @@
     <p id="summary">Just a sec...</p>
     <div id="details"></div>
     <p class="quote" id="quote"></p>
-    <div class="actions">
-      <button class="button" onclick="window.location.reload()">Roast me again 🔁</button>
-      <button class="button" onclick="toggleMode()">Toggle Light/Dark 🌗</button>
-    </div>
-    <p class="quote">Take me back to the world of fake smiles.</p>
   </div>
 
   <script>
@@ -92,12 +56,7 @@
       "Another day, another mess.",
       "May the ad gods have mercy.",
       "You break it, you track it.",
-      "Look what you did.",
-      "Your ads are falling apart. I’m not mad. Just disappointed.",
-      "Nice drop in revenue today. Was that part of the plan?",
-      "Guess who forgot to QA? Again.",
-      "No one’s watching your slots. Except me.",
-      "Imagine a world where your ads actually work."
+      "Look what you did."
     ];
 
     const issueLines = [
@@ -108,19 +67,16 @@
       issues => `This page annoyed the ad gods <span class="highlight">${issues}</span> times.`,
       issues => `<span class="highlight">${issues}</span> violations detected.`,
       issues => `Your ad setup triggered <span class="highlight">${issues}</span> alerts.`,
-      issues => `<span class="highlight">${issues}</span> alerts later, we’re still here.`,
-      issues => `“It’s probably fine.” — You, yesterday.`
+      issues => `<span class="highlight">${issues}</span> slots walk into a page. Fewer walk out.`,
+      issues => `Reality check: <span class="highlight">${issues}</span> sins found.`
     ];
 
     const slotLines = [
       slots => `spread across <span class="highlight">${slots}</span> innocent slots.`,
-      slots => `<span class="highlight">${slots}</span> slots caught in the crossfire.`,
-      slots => `<span class="highlight">${slots}</span> unlucky slots absorbing the consequences.`,
-      slots => `<span class="highlight">${slots}</span> tiny rectangles are now emotionally unavailable.`,
-      slots => `The <span class="highlight">${slots}</span> affected slots are requesting therapy.`,
-      slots => `<span class="highlight">${slots}</span> slots walk into a page. ${slots} walk out crying.`,
-      slots => `<span class="highlight">${slots}</span> placements broken. As expected.`,
-      slots => `Don't worry, only <span class="highlight">${slots}</span> broken placements today.`
+      slots => `<span class="highlight">${slots}</span> slots are now emotionally unavailable.`,
+      slots => `affecting <span class="highlight">${slots}</span> units just trying to exist.`,
+      slots => `<span class="highlight">${slots}</span> slots are somewhere crying in binary.`,
+      slots => `disrupting <span class="highlight">${slots}</span> little ad lives.`
     ];
 
     const quotes = [
@@ -129,22 +85,50 @@
       "Just pretend it's all working fine.",
       "We're not mad. Just disappointed.",
       "May tomorrow bring fewer alerts.",
-      "One of your creatives is lying to you.",
-      "Awkward silence. No ad. Just vibes.",
-      "I logged it, like the responsible one in this relationship.",
-      "I care more than your agency does.",
-      "GPT unit? Ghosted.",
-      "Creative size mismatch. Like, by a lot.",
-      "Slot rendered. Ad call? Nowhere to be seen.",
+      "Nice drop in revenue today. Was that part of the plan?",
+      "'It’s probably fine.' — You, yesterday. Me, not laughing.",
+      "Fun fact: Ignoring issues doesn’t fix them.",
       "Stop pretending everything’s working.",
-      "I noticed something weird. Again. Because apparently I’m the only one watching.",
-      "Your ads are trying their best. Sadly, their best sucks.",
-      "A creative trying to squeeze into a slot it has no business being in (awkward).",
-      "Wrong network ID — someone fat-fingered again.",
-      "An ad that showed up... nowhere. Like your team when it's time to QA.",
-      "‘It’s probably fine.’ — You, yesterday. Me, not laughing.",
-      "I live in your ad stack. I see everything. Sleep tight."
+      "Take me back to the world of fake smiles."
     ];
+
+    const detailsMessages = {
+      gptFail: [
+        "GPT engine failed.",
+        "GPT said 'not today.'",
+        "GPT unit? Ghosted.",
+        "Guess who forgot the script?",
+        "Existential crisis much?"
+      ],
+      domFail: [
+        "slots ghosted the DOM.",
+        "DOM who?",
+        "Rendered into the void.",
+        "Slot appeared in DOM but not in GPT. Classic.",
+        "A DOM slot that doesn’t even exist in GPT. Bold."
+      ],
+      wrongNetwork: [
+        "requests went to the wrong network.",
+        "Someone fat-fingered again.",
+        "Misconfigured network ID. Surprise!",
+        "Wrong address, try again.",
+        "Ad call sent to the void."
+      ],
+      emptyResponse: [
+        "slots got ghosted by the ad server.",
+        "Ad server said: nope.",
+        "404: creative not found.",
+        "Awkward silence. No ad. Just vibes.",
+        "An ad that showed up... nowhere."
+      ],
+      unexpectedSize: [
+        "slots couldn’t commit to a size.",
+        "Creative trying to squeeze where it doesn’t fit.",
+        "Creative size mismatch. Like, by a lot.",
+        "Wrong outfit for the slot party.",
+        "Cosplay gone wrong: size edition."
+      ]
+    };
 
     const urlParams = new URLSearchParams(window.location.search);
     const slots = parseInt(urlParams.get('slots') || '0');
@@ -163,18 +147,14 @@
 
     const details = [];
     if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
-    if (gptFail > 0) details.push(`🧠 GPT engine failed <span class="highlight">${gptFail}</span> time(s).`);
-    if (domFail > 0) details.push(`🕳️ <span class="highlight">${domFail}</span> slots ghosted the DOM.`);
-    if (wrongNetwork > 0) details.push(`🔌 <span class="highlight">${wrongNetwork}</span> requests went to the wrong network.`);
-    if (emptyResponse > 0) details.push(`📭 <span class="highlight">${emptyResponse}</span> slots got ghosted by the ad server.`);
-    if (unexpectedSize > 0) details.push(`📏 <span class="highlight">${unexpectedSize}</span> slots couldn’t commit to a size.`);
+    if (gptFail > 0) details.push(`🧠 ${gptFail} ${pick(detailsMessages.gptFail)}`);
+    if (domFail > 0) details.push(`🕳️ ${domFail} ${pick(detailsMessages.domFail)}`);
+    if (wrongNetwork > 0) details.push(`🔌 ${wrongNetwork} ${pick(detailsMessages.wrongNetwork)}`);
+    if (emptyResponse > 0) details.push(`📭 ${emptyResponse} ${pick(detailsMessages.emptyResponse)}`);
+    if (unexpectedSize > 0) details.push(`📏 ${unexpectedSize} ${pick(detailsMessages.unexpectedSize)}`);
 
     document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
     document.getElementById("quote").innerText = pick(quotes);
-
-    function toggleMode() {
-      document.body.classList.toggle("light-mode");
-    }
   </script>
 </body>
 </html>
