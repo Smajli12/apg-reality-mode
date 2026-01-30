@@ -128,7 +128,14 @@
         "Creative size mismatch. Like, by a lot.",
         "Wrong outfit for the slot party.",
         "Cosplay gone wrong: size edition."
-      ]
+      ],
+      noDom: [
+  "No matching DOM. Classic.",
+  "Rendered in GPT, nowhere to go.",
+  "GPT spoke, DOM didn’t listen.",
+  "Invisible slots are a choice, I guess.",
+  "Someone forgot to place the actual div."
+]
     };
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -137,6 +144,7 @@
     const loss = parseFloat(urlParams.get('loss') || '0');
     const gptFail = parseInt(urlParams.get('gptFail') || '0');
     const domFail = parseInt(urlParams.get('domFail') || '0');
+    const noDom = parseInt(urlParams.get('noDom') || '0');
     const wrongNetwork = parseInt(urlParams.get('wrongNetwork') || '0');
     const emptyResponse = parseInt(urlParams.get('emptyResponse') || '0');
     const unexpectedSize = parseInt(urlParams.get('unexpectedSize') || '0');
@@ -150,6 +158,7 @@
     if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
     if (gptFail > 0) details.push(`🧠 ${gptFail} GPT load failures. ${pick(detailsMessages.gptFail)}`);
     if (domFail > 0) details.push(`🕳️ ${domFail} DOM slots not registered in GPT. ${pick(detailsMessages.domFail)}`);
+    if (noDom > 0) details.push(`🫥 ${noDom} GPT slots had no matching DOM. ${pick(detailsMessages.noDom)}`);
     if (wrongNetwork > 0) details.push(`🔌 ${wrongNetwork} Wrong network IDs. ${pick(detailsMessages.wrongNetwork)}`);
     if (emptyResponse > 0) details.push(`📭 ${emptyResponse} Empty ad responses. ${pick(detailsMessages.emptyResponse)}`);
     if (unexpectedSize > 0) details.push(`📏 ${unexpectedSize} Unexpected creative sizes. ${pick(detailsMessages.unexpectedSize)}`);
