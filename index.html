@@ -148,11 +148,11 @@
 
     const details = [];
     if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
-    if (gptFail > 0) details.push(`🧠 ${gptFail} ${pick(detailsMessages.gptFail)}`);
-    if (domFail > 0) details.push(`🕳️ ${domFail} ${pick(detailsMessages.domFail)}`);
-    if (wrongNetwork > 0) details.push(`🔌 ${wrongNetwork} ${pick(detailsMessages.wrongNetwork)}`);
-    if (emptyResponse > 0) details.push(`📭 ${emptyResponse} ${pick(detailsMessages.emptyResponse)}`);
-    if (unexpectedSize > 0) details.push(`📏 ${unexpectedSize} ${pick(detailsMessages.unexpectedSize)}`);
+    if (gptFail > 0) details.push(`🧠 ${gptFail} GPT load failures. ${pick(detailsMessages.gptFail)}`);
+    if (domFail > 0) details.push(`🕳️ ${domFail} DOM slots not registered in GPT. ${pick(detailsMessages.domFail)}`);
+    if (wrongNetwork > 0) details.push(`🔌 ${wrongNetwork} Wrong network IDs. ${pick(detailsMessages.wrongNetwork)}`);
+    if (emptyResponse > 0) details.push(`📭 ${emptyResponse} Empty ad responses. ${pick(detailsMessages.emptyResponse)}`);
+    if (unexpectedSize > 0) details.push(`📏 ${unexpectedSize} Unexpected creative sizes. ${pick(detailsMessages.unexpectedSize)}`);
 
     document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
     document.getElementById("quote").innerText = pick(quotes);
