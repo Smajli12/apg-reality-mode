@@ -12,10 +12,10 @@
       padding: 40px;
       max-width: 700px;
       margin: auto;
-      transition: background 0.4s, color 0.4s;
+      transition: background 0.3s, color 0.3s;
     }
     .light-mode {
-      background: #f3f4f6;
+      background: #f9fafb;
       color: #111827;
     }
     .box {
@@ -23,10 +23,10 @@
       padding: 24px;
       border-radius: 12px;
       box-shadow: 0 0 10px #00000044;
-      transition: background 0.4s;
     }
     .light-mode .box {
       background: #ffffff;
+      box-shadow: 0 0 10px #e5e7eb;
     }
     h1 {
       font-size: 26px;
@@ -41,7 +41,7 @@
       font-weight: bold;
     }
     .light-mode .highlight {
-      color: #d97706;
+      color: #ca8a04;
     }
     .fade {
       opacity: 0.7;
@@ -55,30 +55,21 @@
     .light-mode .quote {
       color: #6b7280;
     }
-    .button-row {
+    .actions {
       margin-top: 24px;
-      display: flex;
-      gap: 12px;
     }
-    button {
-      padding: 10px 16px;
-      font-size: 14px;
+    .button {
       background: #374151;
       color: white;
+      padding: 10px 14px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background 0.3s;
+      margin-right: 8px;
     }
-    button:hover {
-      background: #4b5563;
-    }
-    .light-mode button {
+    .light-mode .button {
       background: #d1d5db;
-      color: #111;
-    }
-    .light-mode button:hover {
-      background: #e5e7eb;
+      color: #111827;
     }
   </style>
 </head>
@@ -88,30 +79,48 @@
     <p id="summary">Just a sec...</p>
     <div id="details"></div>
     <p class="quote" id="quote"></p>
-    <div class="button-row">
-      <button onclick="location.reload()">🔁 Roast me again</button>
-      <button onclick="document.body.classList.toggle('light-mode')">🌓 Toggle Light/Dark</button>
+    <div class="actions">
+      <button class="button" onclick="window.location.reload()">Roast me again 🔁</button>
+      <button class="button" onclick="toggleMode()">Toggle Light/Dark 🌗</button>
     </div>
+    <p class="quote">Take me back to the world of fake smiles.</p>
   </div>
 
   <script>
     const titles = [
-      "🔥 This is why we can't have nice things.",
-      "💀 Another day, another mess.",
-      "🧨 May the ad gods have mercy.",
-      "🛠️ You break it, you track it.",
-      "🙃 Look what you did."
+      "This is why we can't have nice things.",
+      "Another day, another mess.",
+      "May the ad gods have mercy.",
+      "You break it, you track it.",
+      "Look what you did.",
+      "Your ads are falling apart. I’m not mad. Just disappointed.",
+      "Nice drop in revenue today. Was that part of the plan?",
+      "Guess who forgot to QA? Again.",
+      "No one’s watching your slots. Except me.",
+      "Imagine a world where your ads actually work."
     ];
 
-    const issueSlotCombos = [
-      (i, s) => `The ad gods have filed <span class="highlight">${i}</span> formal complaints. <span class="highlight">${s}</span> slots caught in the crossfire.`,
-      (i, s) => `<span class="highlight">${s}</span> ad slots. <span class="highlight">${i}</span> ways you've disappointed the algorithm today.`,
-      (i, s) => `Page karma: <span class="highlight">${i}</span> infractions. <span class="highlight">${s}</span> unlucky slots absorbing the consequences.`,
-      (i, s) => `This page annoyed the ad gods <span class="highlight">${i}</span> times. <span class="highlight">${s}</span> slots were just collateral damage.`,
-      (i, s) => `<span class="highlight">${i}</span> violations detected. <span class="highlight">${s}</span> tiny rectangles are now emotionally unavailable.`,
-      (i, s) => `Your ad setup triggered <span class="highlight">${i}</span> alerts. The <span class="highlight">${s}</span> affected slots are requesting therapy.`,
-      (i, s) => `<span class="highlight">${s}</span> slots walk into a page. <span class="highlight">${i}</span> walk out crying.`,
-      (i, s) => `<span class="highlight">${i}</span> sins found, <span class="highlight">${s}</span> slots cursed.`
+    const issueLines = [
+      issues => `Your page has <span class="highlight">${issues}</span> complaints from the ad gods,`,
+      issues => `The ad gods have filed <span class="highlight">${issues}</span> formal complaints.`,
+      issues => `<span class="highlight">${issues}</span> ways you've disappointed the algorithm today.`,
+      issues => `Page karma: <span class="highlight">${issues}</span> infractions.`,
+      issues => `This page annoyed the ad gods <span class="highlight">${issues}</span> times.`,
+      issues => `<span class="highlight">${issues}</span> violations detected.`,
+      issues => `Your ad setup triggered <span class="highlight">${issues}</span> alerts.`,
+      issues => `<span class="highlight">${issues}</span> alerts later, we’re still here.`,
+      issues => `“It’s probably fine.” — You, yesterday.`
+    ];
+
+    const slotLines = [
+      slots => `spread across <span class="highlight">${slots}</span> innocent slots.`,
+      slots => `<span class="highlight">${slots}</span> slots caught in the crossfire.`,
+      slots => `<span class="highlight">${slots}</span> unlucky slots absorbing the consequences.`,
+      slots => `<span class="highlight">${slots}</span> tiny rectangles are now emotionally unavailable.`,
+      slots => `The <span class="highlight">${slots}</span> affected slots are requesting therapy.`,
+      slots => `<span class="highlight">${slots}</span> slots walk into a page. ${slots} walk out crying.`,
+      slots => `<span class="highlight">${slots}</span> placements broken. As expected.`,
+      slots => `Don't worry, only <span class="highlight">${slots}</span> broken placements today.`
     ];
 
     const quotes = [
@@ -120,8 +129,21 @@
       "Just pretend it's all working fine.",
       "We're not mad. Just disappointed.",
       "May tomorrow bring fewer alerts.",
-      "You’re doing amazing, sweetie. (No you're not.)",
-      "Technically functional. Emotionally broken."
+      "One of your creatives is lying to you.",
+      "Awkward silence. No ad. Just vibes.",
+      "I logged it, like the responsible one in this relationship.",
+      "I care more than your agency does.",
+      "GPT unit? Ghosted.",
+      "Creative size mismatch. Like, by a lot.",
+      "Slot rendered. Ad call? Nowhere to be seen.",
+      "Stop pretending everything’s working.",
+      "I noticed something weird. Again. Because apparently I’m the only one watching.",
+      "Your ads are trying their best. Sadly, their best sucks.",
+      "A creative trying to squeeze into a slot it has no business being in (awkward).",
+      "Wrong network ID — someone fat-fingered again.",
+      "An ad that showed up... nowhere. Like your team when it's time to QA.",
+      "‘It’s probably fine.’ — You, yesterday. Me, not laughing.",
+      "I live in your ad stack. I see everything. Sleep tight."
     ];
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -137,7 +159,7 @@
     const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
     document.getElementById("title").innerHTML = pick(titles);
-    document.getElementById("summary").innerHTML = pick(issueSlotCombos)(issues, slots);
+    document.getElementById("summary").innerHTML = `${pick(issueLines)(issues)} ${pick(slotLines)(slots)}`;
 
     const details = [];
     if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
@@ -149,6 +171,10 @@
 
     document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
     document.getElementById("quote").innerText = pick(quotes);
+
+    function toggleMode() {
+      document.body.classList.toggle("light-mode");
+    }
   </script>
 </body>
 </html>
