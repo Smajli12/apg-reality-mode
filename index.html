@@ -55,8 +55,29 @@
     const slots = urlParams.get('slots') || 0;
     const issues = urlParams.get('issues') || 0;
     const loss = urlParams.get('loss') || 0;
-    const gptFail = urlParams.get('gptFail') || 0;
-    const domFail = urlParams.get('domFail') || 0;
+
+    const issueRoasts = {
+      gptFail: {
+        label: 'GPT units had an existential crisis.',
+        emoji: '🧠'
+      },
+      domFail: {
+        label: 'slots were never born (DOM who?).',
+        emoji: '🕳️'
+      },
+      wrongNetwork: {
+        label: 'slots joined the wrong gang (bad network ID).',
+        emoji: '🚫'
+      },
+      emptyResponse: {
+        label: 'ads showed up with absolutely nothing to say.',
+        emoji: '📬'
+      },
+      unexpectedSize: {
+        label: 'slots tried on pants that didn’t fit.',
+        emoji: '👖'
+      }
+    };
 
     const titles = [
       'Reality Mode™: Sassy Edition',
@@ -73,21 +94,6 @@
       'Basically a nice dinner and emotional damage.',
       'Enough to hurt, not enough to cry over. Yet.',
       'Equivalent to 4 SaaS tools you forgot to cancel.'
-    ];
-
-    const failListVariants = [
-      [
-        `🧠 ${gptFail} GPT unit${gptFail != 1 ? 's' : ''} had an existential crisis.`,
-        `🕳️ ${domFail} slot${domFail != 1 ? 's' : ''} were never born (DOM who?).`
-      ],
-      [
-        `😅 ${gptFail} GPTs ghosted your page.`,
-        `🪨 ${domFail} slots are imaginary friends.`
-      ],
-      [
-        `😬 GPT? More like Gone Probably Totally. (${gptFail})`,
-        `🌪️ ${domFail} slots fell through the multiverse.`
-      ]
     ];
 
     const footers = [
@@ -108,12 +114,19 @@
 
     const conversion = coffeeConversions[Math.floor(Math.random() * coffeeConversions.length)];
     document.getElementById('revenue').innerHTML = `
-      🩸 Estimated daily revenue bleeding: <strong>$${loss}</strong><br>
+      🩸 Estimated <strong>daily</strong> revenue bleeding: <strong>$${loss}</strong><br>
       <em>${conversion}</em>
     `;
 
-    const chosenFails = failListVariants[Math.floor(Math.random() * failListVariants.length)];
-    document.getElementById('failList').innerHTML = chosenFails.map(f => `<li>${f}</li>`).join('');
+    const failList = [];
+    Object.keys(issueRoasts).forEach(key => {
+      const count = Number(urlParams.get(key)) || 0;
+      if (count > 0) {
+        const { emoji, label } = issueRoasts[key];
+        failList.push(`${emoji} ${count} ${label}`);
+      }
+    });
+    document.getElementById('failList').innerHTML = failList.map(f => `<li>${f}</li>`).join('');
 
     const footer = footers[Math.floor(Math.random() * footers.length)];
     document.getElementById('footer').innerHTML = `<em>${footer}</em>`;
