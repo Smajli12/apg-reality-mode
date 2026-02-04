@@ -5,129 +5,164 @@
   <title>AdPulse Guard – Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 
 <body class="bg-slate-100 text-slate-800">
 
-  <!-- Header -->
-  <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
-    <h1 class="text-xl font-semibold">AdPulse Guard</h1>
+<!-- HEADER -->
+<header class="bg-white px-6 py-3 shadow flex justify-between items-center">
+  <h1 class="text-lg font-semibold">AdPulse Guard</h1>
 
-    <div class="flex gap-3 items-center">
-      <input type="date" class="border rounded px-2 py-1 text-sm" />
-      <span class="text-sm text-slate-500">to</span>
-      <input type="date" class="border rounded px-2 py-1 text-sm" />
-      <button class="bg-blue-600 text-white px-4 py-1.5 rounded text-sm">
-        Apply
-      </button>
+  <div class="flex items-center gap-3 text-sm">
+    <input type="date" class="border rounded px-2 py-1">
+    <span class="text-slate-500">to</span>
+    <input type="date" class="border rounded px-2 py-1">
+    <button class="bg-blue-600 text-white px-4 py-1.5 rounded">Apply</button>
 
-      <select class="border rounded px-2 py-1 text-sm ml-4">
-        <option>Client A</option>
-        <option>Client B</option>
-      </select>
+    <select class="border rounded px-2 py-1 ml-3">
+      <option>Client A</option>
+    </select>
+  </div>
+</header>
+
+<main class="p-6 space-y-6">
+
+<!-- KPI CARDS -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+  <!-- Total Issues -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl p-5 flex items-center gap-4 shadow">
+    <div class="text-3xl">🐞</div>
+    <div>
+      <div class="text-sm opacity-80">Total Issues</div>
+      <div class="text-3xl font-bold">1256</div>
     </div>
-  </header>
+  </div>
 
-  <!-- Main -->
-  <main class="p-6 space-y-6">
+  <!-- Slots Checked -->
+  <div class="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-5 flex items-center gap-4 shadow">
+    <div class="text-3xl">🖥️</div>
+    <div>
+      <div class="text-sm opacity-80">Slots Checked</div>
+      <div class="text-3xl font-bold">4320</div>
+    </div>
+  </div>
 
-    <!-- KPI CARDS -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <!-- Lost Revenue -->
+  <div class="bg-gradient-to-r from-red-600 to-red-500 text-white rounded-xl p-5 flex items-center gap-4 shadow">
+    <div class="text-3xl">$</div>
+    <div>
+      <div class="text-sm opacity-80">Lost Revenue</div>
+      <div class="text-3xl font-bold">$875</div>
+    </div>
+  </div>
 
-      <div class="bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg p-6 shadow">
-        <div class="text-sm opacity-80">Total Issues</div>
-        <div class="text-4xl font-bold mt-2">1256</div>
-      </div>
+</section>
 
-      <div class="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg p-6 shadow">
-        <div class="text-sm opacity-80">Slots Checked</div>
-        <div class="text-4xl font-bold mt-2">4320</div>
-      </div>
+<!-- CHARTS -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-      <div class="bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg p-6 shadow">
-        <div class="text-sm opacity-80">Lost Revenue</div>
-        <div class="text-4xl font-bold mt-2">$875</div>
-      </div>
+  <!-- Issue Types -->
+  <div class="bg-white rounded-xl shadow p-5">
+    <h2 class="font-semibold mb-3">Issue Types</h2>
+    <canvas id="issueTypesChart" height="180"></canvas>
+  </div>
 
-    </section>
+  <!-- Severity -->
+  <div class="bg-white rounded-xl shadow p-5">
+    <h2 class="font-semibold mb-3">Severity Breakdown</h2>
+    <canvas id="severityChart" height="180"></canvas>
+  </div>
 
-    <!-- CHART ROW -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+</section>
 
-      <!-- Issue Types -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <h2 class="font-semibold mb-4">Issue Types</h2>
-        <canvas id="issueTypesChart" height="180"></canvas>
-      </div>
+<!-- Revenue -->
+<section class="bg-white rounded-xl shadow p-5">
+  <h2 class="font-semibold mb-3">Daily Revenue Loss</h2>
+  <canvas id="revenueChart" height="130"></canvas>
+</section>
 
-      <!-- Severity Breakdown -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <h2 class="font-semibold mb-4">Severity Breakdown</h2>
-        <canvas id="severityChart" height="180"></canvas>
-      </div>
+</main>
 
-    </section>
+<script>
+Chart.register(ChartDataLabels);
 
-    <!-- Revenue Loss -->
-    <section class="bg-white rounded-lg shadow p-4">
-      <h2 class="font-semibold mb-4">Daily Revenue Loss</h2>
-      <canvas id="revenueChart" height="120"></canvas>
-    </section>
-
-  </main>
-
-  <!-- Charts -->
-  <script>
-    // Issue Types Bar
-    new Chart(document.getElementById('issueTypesChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Missing Sizes', 'Tag Errors', 'Ad Blocked', 'Slow Load'],
-        datasets: [{
-          data: [512, 345, 260, 139],
-          backgroundColor: ['#2563eb', '#f59e0b', '#16a34a', '#dc2626']
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } }
+// Issue Types
+new Chart(issueTypesChart, {
+  type: 'bar',
+  data: {
+    labels: ['Missing Sizes', 'Tag Errors', 'Ad Blocked', 'Slow Load'],
+    datasets: [{
+      data: [512, 345, 260, 139],
+      backgroundColor: ['#2563eb', '#f59e0b', '#16a34a', '#dc2626'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        font: { weight: 'bold' }
       }
-    });
+    }
+  }
+});
 
-    // Severity Pie
-    new Chart(document.getElementById('severityChart'), {
-      type: 'pie',
-      data: {
-        labels: ['Critical', 'Warning', 'Info'],
-        datasets: [{
-          data: [45, 35, 20],
-          backgroundColor: ['#dc2626', '#f59e0b', '#2563eb']
-        }]
+// Severity Pie
+new Chart(severityChart, {
+  type: 'pie',
+  data: {
+    labels: ['Critical', 'Warning', 'Info'],
+    datasets: [{
+      data: [45, 35, 20],
+      backgroundColor: ['#dc2626', '#f59e0b', '#2563eb']
+    }]
+  },
+  options: {
+    plugins: {
+      datalabels: {
+        color: '#fff',
+        font: { weight: 'bold' },
+        formatter: v => v + '%'
       }
-    });
+    }
+  }
+});
 
-    // Revenue Line
-    new Chart(document.getElementById('revenueChart'), {
-      type: 'line',
-      data: {
-        labels: ['Apr 1', 'Apr 3', 'Apr 5', 'Apr 7', 'Apr 9'],
-        datasets: [{
-          data: [950, 950, 1120, 840, 840],
-          borderColor: '#dc2626',
-          backgroundColor: 'rgba(220,38,38,0.1)',
-          tension: 0.4,
-          fill: true
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } }
+// Revenue Line
+new Chart(revenueChart, {
+  type: 'line',
+  data: {
+    labels: ['Apr 1', 'Apr 3', 'Apr 5', 'Apr 7', 'Apr 9'],
+    datasets: [{
+      data: [950, 950, 1120, 840, 840],
+      borderColor: '#dc2626',
+      backgroundColor: 'rgba(220,38,38,0.15)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 5
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        align: 'top',
+        anchor: 'end',
+        formatter: v => '$' + v
       }
-    });
-  </script>
+    }
+  }
+});
+</script>
 
 </body>
 </html>
