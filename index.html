@@ -339,7 +339,10 @@ a.dashboard-link:hover {
     document.getElementById("quote").innerText = pick(quotes);
     const dashboardUrl = urlParams.get('dash');
     if (dashboardUrl) {
-  const cta = pick(dashboardCTAs).replace('{url}', decodeURIComponent(dashboardUrl));
+    const cta = pick(dashboardCTAs).replace(
+    '{url}',
+    dashboardUrl
+);
   document.getElementById('dashboardLink').innerHTML = cta;
 }
   </script>
