@@ -94,10 +94,10 @@ a.dashboard-link:hover {
     padding:0 4px;
   ">
     <div style="
-      font-size:13px;
+      font-size:14px;
       font-weight:500;
       letter-spacing:0.02em;
-      color:var(--apg-muted);
+      color:#c7d2fe;
     ">
       AdPulse Guard
       <span style="opacity:0.6;">· Reality Mode™</span>
@@ -327,7 +327,7 @@ a.dashboard-link:hover {
     document.getElementById("summary").innerHTML = `${pick(issueLines)(issues)} ${pick(slotLines)(slots)}`;
 
     const details = [];
-    if (loss > 0) details.push(`🩸 Estimated daily revenue bleeding: <span class="highlight">$${loss}</span>`);
+    if (loss > 0) details.push(`🩸 Revenue bleeding per day: <span class="highlight">$${loss}</span>`);
     if (gptFail > 0) details.push(`🧠 ${gptFail} GPT load failures. ${pick(detailsMessages.gptFail)}`);
     if (domFail > 0) details.push(`🕳️ ${domFail} DOM slots not registered in GPT. ${pick(detailsMessages.domFail)}`);
     if (noDom > 0) details.push(`🫥 ${noDom} GPT slots had no matching DOM. ${pick(detailsMessages.noDom)}`);
