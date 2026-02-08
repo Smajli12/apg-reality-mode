@@ -5,62 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reality Mode™</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #111827;
-      color: #f3f4f6;
-      padding: 40px;
-      max-width: 700px;
-      margin: auto;
-    }
-    .box {
-      background: #1f2937;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00000044;
-    }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 18px;
-    }
-    p {
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-    .highlight {
-      color: #facc15;
-      font-weight: bold;
-    }
-    .fade {
-      opacity: 0.7;
-      font-size: 14px;
-    }
-    .quote {
-      margin-top: 24px;
-      font-style: italic;
-      color: #9ca3af;
-    }
-    a.dashboard-link {
-  color: #93c5fd;
+    :root {
+  --apg-bg: #1e1e2f;
+  --apg-card: #2a2a3b;
+  --apg-primary: #6366f1;
+  --apg-primary-soft: #818cf8;
+  --apg-text: #f3f4f6;
+  --apg-muted: #9ca3af;
+  --apg-danger: #ef4444;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(
+    1200px 600px at top,
+    #25253a,
+    var(--apg-bg)
+  );
+  color: var(--apg-text);
+  padding: 48px 20px;
+  max-width: 720px;
+  margin: auto;
+}
+
+.box {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0)
+  );
+  background-color: var(--apg-card);
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+.highlight {
+  color: var(--apg-primary);
+  font-weight: 600;
+}
+
+.fade {
+  opacity: 0.8;
+  font-size: 13px;
+  color: var(--apg-muted);
+}
+
+.quote {
+  margin-top: 26px;
+  font-style: italic;
+  color: var(--apg-muted);
+}
+
+/* Dashboard CTA */
+a.dashboard-link {
+  color: var(--apg-primary-soft);
   text-decoration: none;
-  border-bottom: 1px dashed #93c5fd55;
-  cursor: pointer;
+  border-bottom: 1px dashed rgba(129,140,248,0.6);
 }
 
 a.dashboard-link:hover {
-  color: #bfdbfe;
-  border-bottom-color: #bfdbfe;
+  color: #c7d2fe;
+  border-bottom-color: #c7d2fe;
 }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1 id="title">Reality check loading...</h1>
-    <p id="summary">Just a sec...</p>
-    <div id="details"></div>
-    <p class="quote" id="quote"></p>
-    <p class="fade" id="dashboardLink" style="margin-top: 24px;"></p>
+  <div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    padding:0 4px;
+  ">
+    <div style="
+      font-size:13px;
+      font-weight:500;
+      letter-spacing:0.02em;
+      color:var(--apg-muted);
+    ">
+      AdPulse Guard
+      <span style="opacity:0.6;">· Reality Mode™</span>
+    </div>
   </div>
+
+  <div class="box">
 
   <script>
     const titles = [
