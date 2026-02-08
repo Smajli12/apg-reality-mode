@@ -40,6 +40,17 @@
       font-style: italic;
       color: #9ca3af;
     }
+    a.dashboard-link {
+  color: #93c5fd;
+  text-decoration: none;
+  border-bottom: 1px dashed #93c5fd55;
+  cursor: pointer;
+}
+
+a.dashboard-link:hover {
+  color: #bfdbfe;
+  border-bottom-color: #bfdbfe;
+}
   </style>
 </head>
 <body>
@@ -48,6 +59,7 @@
     <p id="summary">Just a sec...</p>
     <div id="details"></div>
     <p class="quote" id="quote"></p>
+    <p class="fade" id="dashboardLink" style="margin-top: 24px;"></p>
   </div>
 
   <script>
@@ -142,6 +154,32 @@
       "Check if the WiFi light is blinking. Always helps.",
       "Drink water. Fix ads. In that order.",
       "Have you sacrificed an ad slot to the algorithm lately?"
+];
+    const dashboardCTAs = [
+  "Want receipts? <a class='dashboard-link' href='{url}'>Open the dashboard.</a>",
+  "Enough sarcasm. <a class='dashboard-link' href='{url}'>Show me the dashboard.</a>",
+  "Curious how bad it really is? <a class='dashboard-link' href='{url}'>Dashboard’s this way.</a>",
+  "This is the summary. <a class='dashboard-link' href='{url}'>The damage is in the dashboard.</a>",
+  "Reality hurts less with charts. <a class='dashboard-link' href='{url}'>Open dashboard.</a>",
+  "Ready for the uncomfortable truth? <a class='dashboard-link' href='{url}'>Dashboard’s waiting.</a>",
+  "You’ve seen the jokes. <a class='dashboard-link' href='{url}'>Now see the data.</a>",
+  "This is the sarcasm layer. <a class='dashboard-link' href='{url}'>Reality lives in the dashboard.</a>",
+  "I made it funny. <a class='dashboard-link' href='{url}'>The dashboard won’t.</a>",
+  "Laugh now. <a class='dashboard-link' href='{url}'>Fix it later.</a>",
+  "Feeling skeptical? <a class='dashboard-link' href='{url}'>Here are the receipts.</a>",
+  "Want proof I’m not exaggerating? <a class='dashboard-link' href='{url}'>Open the dashboard.</a>",
+  "I wish this was a joke. <a class='dashboard-link' href='{url}'>It’s not.</a>",
+  "Receipts > vibes. <a class='dashboard-link' href='{url}'>Dashboard.</a>",
+  "Charts don’t lie. <a class='dashboard-link' href='{url}'>Unfortunately.</a>",
+  "Curious where the money went? <a class='dashboard-link' href='{url}'>Follow the trail.</a>",
+  "That drop wasn’t imaginary. <a class='dashboard-link' href='{url}'>See it here.</a>",
+  "If revenue could scream, it would point here → <a class='dashboard-link' href='{url}'>Dashboard</a>",
+  "Want to stop the bleeding? <a class='dashboard-link' href='{url}'>Start here.</a>",
+  "This view is opinionated. <a class='dashboard-link' href='{url}'>The dashboard is factual.</a>",
+  "You can’t unsee this. <a class='dashboard-link' href='{url}'>Might as well open the dashboard.</a>",
+  "I did my part. <a class='dashboard-link' href='{url}'>Your move.</a>",
+  "This is where denial ends. <a class='dashboard-link' href='{url}'>Dashboard.</a>",
+  "Still think it’s fine? <a class='dashboard-link' href='{url}'>Check again.</a>",
 ];
 
     const detailsMessages = {
@@ -247,6 +285,11 @@
 
     document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
     document.getElementById("quote").innerText = pick(quotes);
+    const dashboardUrl = urlParams.get('dash');
+    if (dashboardUrl) {
+  const cta = pick(dashboardCTAs).replace('{url}', decodeURIComponent(dashboardUrl));
+  document.getElementById('dashboardLink').innerHTML = cta;
+}
   </script>
 </body>
 </html>
