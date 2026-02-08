@@ -335,23 +335,13 @@ a.dashboard-link:hover {
     if (emptyResponse > 0) details.push(`📭 ${emptyResponse} Empty ad responses. ${pick(detailsMessages.emptyResponse)}`);
     if (unexpectedSize > 0) details.push(`📏 ${unexpectedSize} Unexpected creative sizes. ${pick(detailsMessages.unexpectedSize)}`);
 
-    document.getElementById("details").innerHTML = details.map(d => `<p>${d}</p>`).join('');
+    document.getElementById("details").innerHTML =
+    details.map(d => `<p>${d}</p>`).join('');
     document.getElementById("quote").innerText = pick(quotes);
     const dashboardUrl = urlParams.get('dash');
     if (dashboardUrl) {
-  const container = document.getElementById('dashboardLink');
-  const text = pick(dashboardCTAs).split('{url}');
-
-  const a = document.createElement('a');
-  a.href = dashboardUrl;                
-  a.className = 'dashboard-link';
-  a.textContent = 'Open the dashboard';
-
-  container.innerHTML = text[0];
-  container.appendChild(a);
-  if (text[1]) {
-    container.appendChild(document.createTextNode(text[1]));
-  }
+  const cta = pick(dashboardCTAs).replace('{url}', dashboardUrl);
+  document.getElementById('dashboardLink').innerHTML = cta;
 }
   </script>
 </body>
